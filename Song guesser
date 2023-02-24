@@ -1,0 +1,239 @@
+
+/*
+- Created by: James Hope
+- Date: 25.01.2023
+- Purpose: Task 1 of Practical Programming Challenge. Create a song guessing game in C#
+*/
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+
+class Program
+{
+    public static void Main(string[] args)
+    {
+
+        //This checks for username
+        bool user_pass = false;
+        while (user_pass == false)
+        {
+            Console.WriteLine("How many players are there?");
+
+            int num_players = Convert.ToInt32(Console.ReadLine());
+
+          if (num_players > 6){
+            Console.WriteLine("The max amount of players for this game is 6. \nPlease play with less players.");
+            break;
+          } else{}
+
+            List<string> users = new List<string>(num_players);
+            Console.WriteLine("Please input a username \n(it must not already be taken)");
+
+            for (int i = 0; i <= num_players - 1; i++)
+            {
+                Console.ReadKey();
+                string username = Console.ReadLine();
+
+                if (!users.Contains(username) && username.Length >= 2 && username.Length >=10)
+                {
+                    users.Add(username);
+                    Console.WriteLine("Your username was accepted.");
+                    user_pass = true;
+                    Console.WriteLine("\nNext username: ");
+                }
+                else
+                {
+                    Console.WriteLine("Your username was already taken. Or is not the correct length (must be 2-10 characters).");
+                }
+                if (users.Count == num_players)
+                {
+                    for (int y = 0; y == users.Count; y++)
+                    {
+                        Console.WriteLine("Player", y, "is", users[y]);
+                    } 
+                
+                    user_pass = true;
+                    
+                } else if (users.Count > num_players){
+                  Console.WriteLine("Too many usernames have been entered. Please try again.");
+                  user_pass = false;
+                  
+                }
+            }
+        for (int i = -1; i>= users.Count; i++){
+        Console.WriteLine($"\nPlayer {i} = {users[i]}");
+         }
+        //This checks for password
+        //This while loop will reiterate the password processduhadlly inputs a username and password
+        bool password_pass = false;
+        while (password_pass == false)
+        {
+
+            Console.WriteLine("\nPlease insert a password \n(it must have at least 1 special character and me 8 or more characters long): ");
+            string password = Console.ReadLine();
+            char[] password_need = { '@', '!', '?', '£', '$', '%', '^', '&', '*', '(', ')', '_', '+', '"' };
+
+            foreach (char sign in password_need)
+            {
+                if (password.Contains(sign) && password.Length >= 8)
+                {
+                    password_pass = true;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (password_pass == false)
+            {
+                Console.WriteLine("Your password was not accepted");
+            }
+            else
+            {
+                Console.WriteLine("\nYour password and usernames were accepted!\n\n\n\n###################GAME START###################\n");
+            }
+        }
+
+bool game = false;
+  while (game == false){
+          
+          IDictionary<string, string> song_guess = new Dictionary<string, string>() {
+     { "Billie Eilish", "Male Fantasy" },
+     { "Lizzo", "About Damn Time" },
+      { "Harry Styles", "Matilda" },
+     { "Fleetwood Mac", "Go Your Own Way" },
+     { "Vistavision", "Where Did Everybody Go" },
+     { "Norah Jones", "Sunrise" },
+     { "AURORA", "Cure For Me" },
+     { "Michael Jackson", "Thriller" }
+    };
+
+          //Selects artist and song at random
+     Random RNG = new Random();
+    int rand_Num = RNG.Next(0, song_guess.Count);
+    var song = song_guess.ElementAt(rand_Num);
+
+int player_1 = 0;
+int player_2 = 0;
+int player_3 = 0;
+int player_4 = 0;
+int player_5 = 0;
+int player_6 = 0;
+       
+      foreach (var person in users){  //iterates through all players
+        Console.WriteLine($"\n{person} has 2 guesses to guess the song.\n\nIf they guess correctly first time, they recieve 3 points. \nHowever if they get it right second try they will recieve 1 point.\n");
+
+        Console.WriteLine( $"This song is by: {song.Key} \nThe first letter of the song title is: {song.Value[0]}.");
+
+
+        
+        
+
+          Console.WriteLine("\nYour guess: ");
+          string guess = Console.ReadLine(); //Important variable
+          if (guess.ToLower() == song.Value.ToLower()){
+              Console.WriteLine("\nCorrect! You have earned 3 points.");
+            //Points system
+            if (person == users[0]){
+              player_1 += 3;
+            } else if (person == users[1]){
+              player_2 += 3;
+            } else if (person == users[2]){
+              player_3 += 3;
+            } else if (person == users[3]){
+              player_4 += 3;
+            } else if (person == users[-2]){
+              player_5 += 3;
+            }else if (person == users[-1]){
+              player_6 +=3;
+            } else{
+              Console.WriteLine("\nUsername not recognised.\n");
+              break;
+            }
+            } 
+              else if ( guess.ToLower() != song.Value){
+              Console.WriteLine("\nIncorrect, you have 1 more attempt.");
+                string guess_2 = Console.ReadLine();
+                
+                
+               
+             if (guess_2.ToLower() == song.Value){
+              Console.WriteLine("\nCorrect! You have earned 1 point.\n");
+               
+             //Points system
+            if (person == users[0]){
+              player_1 += 1;
+            } else if (person == users[1]){
+              player_2 += 1;
+            } else if (person == users[2]){
+              player_3 += 1;
+            } else if (person == users[3]){
+              player_4 += 1;
+            } else if (person == users[-2]){
+              player_5 += 1;
+            }else if (person == users[-1]){
+              player_6 +=1;
+            } else{
+              Console.WriteLine("\nUsername not recognised.");
+              break;
+            }
+               }
+        }
+         
+              else if (guess.ToLower() != song.Value){
+              Console.WriteLine("\nIncorrect, you have not earned any points.");
+              break;
+            }
+          if (users[0] == person){
+            Console.WriteLine($"{person} scored {player_1} points.");
+            continue;
+          } else if (users[1] == person){
+            Console.WriteLine($"{person} scored {player_2} points.");
+            continue;
+          } else if (users[2] == person){
+            Console.WriteLine($"{person} scored {player_3} points.");
+            continue;
+          } else if (users[3] == person){
+            Console.WriteLine($"{person} scored {player_4} points.");
+            continue;
+          } else if (users[4] == person){
+            Console.WriteLine($"{person} scored {player_5} points.");
+            continue;
+          } else if (users[5] == person){
+            Console.WriteLine($"{person} scored {player_6} points.");
+            continue;
+          }
+        }
+    string winner_name = "";
+    List<int> winner = new List<int>{player_1, player_2, player_3, player_4, player_5, player_6};
+    if (winner.Max() == player_1){
+      winner_name = users[0];
+    }else if (winner.Max() == player_2){
+      winner_name = users[1];
+    }else if (winner.Max() == player_3){
+      winner_name = users[2];
+    }else if (winner.Max() == player_4){
+      winner_name = users[3];
+    }else if (winner.Max() == player_5){
+      winner_name = users[4];
+    }else if (winner.Max() == player_6){
+      winner_name = users[5];
+      }
+    Console.WriteLine($"\nThe winner is {winner_name} with {winner.Max()} points!\nThe answer was {song.Value}\n");
+    Console.WriteLine("Would you like to play again?");
+      string game_rep = Console.ReadLine();
+      if (game_rep.ToLower().Contains("yes") || game_rep.ToLower().Contains("sure")){
+        game = false;
+        Console.WriteLine("################################ NEW GAME ################################\n");
+      } else{
+        game = true;
+        Console.WriteLine("Thank you for playing!\n\n\n\n\n\nCreated By: James Hope - HG\n Released: 13.02.2023");
+        break;
+      }
+  }
+    }
+          }
+      }
